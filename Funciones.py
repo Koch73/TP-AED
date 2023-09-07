@@ -7,12 +7,12 @@ class Ticket:
         self.pais = pais
         self.km_Recorridos = km_Recorridos
     def __str__(self):
-        p = "Código: " + str(self.codigo)
-        p += "{:>30}".format("Patente: " + self.patente)
-        p += "{:>30}".format("Tipo de Vehículo: " + str(self.tipoV))
-        p += "{:>30}".format("Forma de Pago: " + str(self.forma_de_pago))
-        p += "{:>30}".format("Pais de origen: " + str(self.pais))
-        p += "{:>30}".format("Kilómetros recorridos: " + str(self.km_Recorridos))
+        p = "{:<22}".format("Código: " + str(self.codigo))
+        p += "{:<22}".format("Patente: " + self.patente)
+        p += "{:<22}".format("Tipo de Vehículo: " + str(self.tipoV))
+        p += "{:<22}".format("Forma de Pago: " + str(self.forma_de_pago))
+        p += "{:<22}".format("Pais de origen: " + str(self.pais))
+        p += "{:<22}".format("Kilómetros recorridos: " + str(self.km_Recorridos))
         return p
 
 
@@ -203,38 +203,72 @@ def cargaPorTeclado(Registros):
 
 
 #Agregar los 0 que sean necesarios (x) a los componentes de una lista t
-def agregarCeros(t, x):
-    for i in range(len(t)):
-        if len(str(t[i])) != x:
-            cant_ceros = x - (len(str(t[i])))
+def agregarCeros(Registros, x):
+    for i in range(len(Registros)):
+        if len(str(Registros[i].codigo)) != x:
+            cant_ceros = x - (len(str(Registros[i].codigo)))
             str_ceros = "0" * cant_ceros
-            t[i] = str_ceros + str(t[i])
-    return t
+            Registros[i] = str_ceros + str(Registros[i].codigo)
+    return Registros
 
 
 #Ordenar mediante selection sort los registros de una lista v
 def ordenarRegistros(Registros):
     # array auxiliar almacena solo los codigos para luego ordenarlos
-    t = []
+    #t = []
 
-    for i in range(len(Registros)):
-        ticket = Registros[i]
-        codigo_ticket = int(ticket.codigo)
-        t.append(codigo_ticket)
+    #for i in range(len(Registros)):
+        #ticket = Registros[i]
+        #codigo_ticket = int(ticket.codigo)
+        #t.append(codigo_ticket)
 
     #ordenamiento por seleccion directa
-    n = len(t)
+    n = len(Registros)
     for i in range(n - 1):
         for j in range(i + 1, n):
-            if t[i] > t[j]:
-                t[i], t[j] = t[j], t[i]
+            if Registros[i].codigo > Registros[j].codigo:
+                Registros[i], Registros[j] = Registros[j], Registros[i]
 
     #agregarle los 0 que falta delante de los codigos
-    v = agregarCeros(t, 10)
+    Registros = agregarCeros(Registros, 10)
+
     return Registros
+
 
 #Mostrar registros de la lista ordenados
 def mostrarRegistros(Registros):
     for i in range(len(Registros)):
         paisPatente = definir_patente(Registros[i].patente)
-        print(str(Registros[i]), end= "")
+        r = f"Pais de la patente: {paisPatente}, {Registros[i]}"
+        print(r)
+
+
+#Buscar registro con la patente p en el pais x
+def buscarRegistro(Registros, p, x):
+
+    #Linear search
+    for i in range(len(Registros)):
+        if Registros[i].patente == p and Registros[i].pais == x:
+            return Registros[i]
+
+    return False
+
+
+#Buscar mediante busqueda binaria el codigo c en los registros
+def buscarCodigo(Registros, c):
+    # Linear search
+    for i in range(len(Registros)):
+        if Registros[i].codigo == c:
+            return i
+
+    return False
+
+
+#Cambia el valor de la forma de pago de 1 a 2 y viceversa
+def cambiarValor(Registros,indice):
+    if Registros[indice].forma_de_pago == "1":
+        Registros[indice].forma_de_pago = "2"
+    else:
+        Registros[indice].forma_de_pago = "1"
+
+    return Registros

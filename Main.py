@@ -17,6 +17,9 @@ def menu(registros):
     print("0) Salir " )
     print("-"*40)
     opc = int(input('Opcion: '))
+
+    #Bandera para comprobar si el arreglo esta ordenado para efectuar busqueda binaria (punto 5)
+    ordenado = False
     while opc != 0:
         if opc == 1:
             decision = int(input("Estas seguro de que deseas eliminar el registro anterior y crear uno nuevo si(1) no (0): "))
@@ -32,10 +35,31 @@ def menu(registros):
             registros = ordenarRegistros(registros)
             print("\nRegistros ordenados de forma ascendente.\n")
             mostrarRegistros(registros)
+            ordenado = True
         if opc == 4:
-            pass
+            patente_buscada = input("Ingrese la patente que desea buscar: ")
+            cabina_buscada = input("Ingrese el país de la cabina: ")
+
+            resultado4 = buscarRegistro(registros, patente_buscada, cabina_buscada)
+            if not(resultado4):
+                print("No se encontró el registro deseado")
+            else:
+                print(resultado4)
+
         if opc == 5:
-            pass
+            if not ordenado:
+                registros = ordenarRegistros(registros)
+
+            codigo_buscado = input("Ingrese el código buscado: ")
+            indice = buscarCodigo(registros, codigo_buscado)
+            if indice == False:
+                print("\nNo se encontro el codigo")
+            else:
+                registros = cambiarValor(registros, indice)
+                print("\nEl registro modificado: ", registros[indice])
+
+
+            #cambiarValor(registros)
         if opc == 6:
             pass
         if opc == 7:
