@@ -18,8 +18,10 @@ def menu(registros):
     print("-"*40)
     opc = int(input('Opcion: '))
 
-    #Bandera para comprobar si el arreglo esta ordenado para efectuar busqueda binaria (punto 5)
-    ordenado = False
+    #Bandera para verificar que el importe de cada
+    #tipo de vehiculo fue calculado (necesario para el punto 8)
+    importe_calculado = False
+
     while opc != 0:
         if opc == 1:
             decision = int(input("Estas seguro de que deseas eliminar el registro anterior y crear uno nuevo si(1) no (0): "))
@@ -48,8 +50,6 @@ def menu(registros):
                 print("\n", resultado4)
 
         elif opc == 5:
-            if not ordenado:
-                registros = ordenarRegistros(registros)
 
             codigo_buscado = input("Ingrese el código buscado: ")
             indice = buscarCodigo(registros, codigo_buscado)
@@ -64,9 +64,19 @@ def menu(registros):
             mostrarPaises(lista_nombres_paises, lista_paises)
 
         elif opc == 7:
-            pass
+           importe_total_vehiculos, lista_vehiculos = importeTickets(registros)
+           mostrarImportes(importe_total_vehiculos, lista_vehiculos)
+           importe_calculado = True
+
         elif opc == 8:
-            pass
+            if not(importe_calculado):
+                importe_total_vehiculos, lista_vehiculos = importeTickets(registros)
+
+            may, porc , indice_may = porcentajeVehiculos(importe_total_vehiculos,registros)
+
+            print("\nEl tipo de vehículo con mayor monto acumulado fue ", "'", lista_vehiculos[indice_may], "'",
+                  "es igual a: ", may, "y representa el", porc, "% del total")
+
         elif opc == 9:
             pass
         opc = int(input('\nOpcion: '))
@@ -77,5 +87,4 @@ def Main():
 
 if __name__ == "__main__":
     Main()
-
 

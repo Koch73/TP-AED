@@ -318,15 +318,54 @@ def calcularImporte(vehiculo,pais,forma_de_pago):
     total = 0
     indice_importe = ""
 
-    #CALCULOS
-    #No se si se toma como "pais" al pais de la patente o de la cabina (me refiero para cobrar los 200, 300, etc)
+    vehiculo = int(vehiculo)
+    pais = int(pais)
+    forma_de_pago = int(forma_de_pago)
 
-    return total, indice_importe
+    #Argentina, Paraguay o Uruguay
+    if pais == 0 or pais == 3 or pais == 4:
+        importe_base = 300
+
+    #Bolivia
+    elif pais == 1:
+        importe_base = 200
+
+    #Brasil
+    else:
+        importe_base = 300
+
+    if vehiculo == 0:
+        importe_basico = importe_base/2
+        indice_importe = 0
+
+    elif vehiculo == 1:
+        importe_basico = importe_base
+        indice_importe = 1
+
+    else:
+        importe_basico = importe_base * 1.6
+        indice_importe = 2
+
+    if forma_de_pago == 1:
+        importe_final = importe_basico
+
+    else:
+        importe_final = importe_basico - (importe_basico * 0.1)
 
 
-#Calcula los importes de
+    return importe_final, indice_importe
+
+
+def mostrarImportes(importe_final_vehiculos, lista_vehiculos):
+    for i in range(len(importe_final_vehiculos)):
+        print("Importe total acumulado por tickets de ",
+              lista_vehiculos[i], " : ", importe_final_vehiculos[i])
+
+
+#Suma los importes de los distintos tipos de vehiculos
 def importeTickets(Registros):
 
+    lista_vehiculos = ["Motocicletas", "Automoviles", "Camiones"]
     importe_total_vehiculos = [0,0,0]
 
     for i in range(len(Registros)):
@@ -334,4 +373,20 @@ def importeTickets(Registros):
             calcularImporte(Registros[i].tipoV, Registros[i].pais, Registros[i].forma_de_pago)
 
         importe_total_vehiculos[indice_vehiculo] += total_vehiculo
+
+    return importe_total_vehiculos, lista_vehiculos
+
+
+#Calcular promedio y porcentaje del tipo vehiculo con el importe mas alto
+def porcentajeVehiculos(importe_total_vehiculos, registros):
+    may = 0
+    total = 0
+    for i in range(len(importe_total_vehiculos)):
+        total += importe_total_vehiculos[i]
+        if importe_total_vehiculos[i] > may:
+            may = importe_total_vehiculos[i]
+            indice = i
+    porc = round(may * 100 / total, 2)
+    return may, porc, indice
+
 
