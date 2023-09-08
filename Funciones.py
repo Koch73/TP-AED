@@ -17,7 +17,8 @@ class Ticket:
 
 
 #Verificar el pais de la patente
-def definir_patente(patente):
+def definirPatente(patente):
+    indice_pais = ""
     #ARGENTINA
     if (
         patente[0].isalpha()
@@ -29,6 +30,7 @@ def definir_patente(patente):
         and patente[6].isalpha()
     ):
         pais_patente = "Argentina"
+        indice_pais = 0
 
     #BOLIVIA
     elif (
@@ -41,6 +43,7 @@ def definir_patente(patente):
         and patente[6].isdigit()
     ):
         pais_patente = "Bolivia"
+        indice_pais = 1
     #BRASIL
     elif (
         patente[0].isalpha()
@@ -52,6 +55,7 @@ def definir_patente(patente):
         and patente[6].isdigit()
     ):
         pais_patente = "Brasil"
+        indice_pais = 2
     #CHILE
 
     elif (
@@ -64,6 +68,8 @@ def definir_patente(patente):
         and patente[6].isdigit()
     ):
         pais_patente = "Chile"
+        indice_pais = 5
+
     #PARAGUAY
     elif (
         patente[0].isalpha()
@@ -75,6 +81,8 @@ def definir_patente(patente):
         and patente[6].isdigit()
     ):
         pais_patente = "Paraguay"
+        indice_pais = 3
+
     #URUGUAY
     elif (
         patente[0].isalpha()
@@ -86,12 +94,17 @@ def definir_patente(patente):
         and patente[6].isdigit()
     ):
         pais_patente = "Uruguay"
+        indice_pais = 4
+
     else:
         pais_patente = "Otro"
-    return pais_patente
+        indice_pais = 6
+
+    return pais_patente, indice_pais
+
 
 #Cargar vector por archivo de texto
-def cargar_vector(Registros, txt):
+def cargarVector(Registros, txt):
     m = open(txt, "rt")
     line = m.readline()
     Registros = []
@@ -116,7 +129,7 @@ def cargar_vector(Registros, txt):
 
 #Validar que el codigo del ticket contenga solo numeros
 def validateCodigo(codigo, n):
-    if len(codigo) > n:
+    if len(codigo) != n:
         return False
     for i in range(len(codigo)):
         if codigo[i].isalpha():
@@ -167,10 +180,10 @@ def cargaPorTeclado(Registros):
         print("Error, codigo incorrecto, ingreselo de nuevo.")
         codigo = input("Ingrese el código: ")
 
-    patente = input("Ingrese la patente: ")
+    patente = (input("Ingrese la patente: ")).upper()
     while not(validatePatente(patente)):
         print("Error, patente incorrecta, ingresela de nuevo")
-        patente = input("Ingrese la patente: ")
+        patente = (input("Ingrese la patente: ")).upper()
 
     tipoV = input("Ingrese el tipo de vehiculo: ")
     while not(validateTipo(tipoV)):
@@ -214,13 +227,6 @@ def agregarCeros(Registros, x):
 
 #Ordenar mediante selection sort los registros de una lista v
 def ordenarRegistros(Registros):
-    # array auxiliar almacena solo los codigos para luego ordenarlos
-    #t = []
-
-    #for i in range(len(Registros)):
-        #ticket = Registros[i]
-        #codigo_ticket = int(ticket.codigo)
-        #t.append(codigo_ticket)
 
     #ordenamiento por seleccion directa
     n = len(Registros)
@@ -238,14 +244,14 @@ def ordenarRegistros(Registros):
 #Mostrar registros de la lista ordenados
 def mostrarRegistros(Registros):
     for i in range(len(Registros)):
-        paisPatente = definir_patente(Registros[i].patente)
+        paisPatente, ind = definirPatente(Registros[i].patente)
         r = f"Pais de la patente: {paisPatente}, {Registros[i]}"
         print(r)
 
 
 #Buscar registro con la patente p en el pais x
 def buscarRegistro(Registros, p, x):
-
+    p = p.upper()
     #Linear search
     for i in range(len(Registros)):
         if Registros[i].patente == p and Registros[i].pais == x:
@@ -272,3 +278,60 @@ def cambiarValor(Registros,indice):
         Registros[indice].forma_de_pago = "1"
 
     return Registros
+
+
+#Mostrar la cantidad de vehiculos de cada pais que pasaron por las cabinas
+def mostrarPaises(lista_nombres_paises, lista_paises):
+
+    print("\n")
+
+    for i in range(len(lista_nombres_paises)):
+
+        if lista_nombres_paises[i] == "otros":
+            print("Cantidad de vehiculos de ", lista_nombres_paises[i],
+                  "paises que pasaron por las cabinas: ", lista_paises[i])
+        else:
+            print("Cantidad de vehiculos de ", lista_nombres_paises[i],
+                " que pasaron por las cabinas: ", lista_paises[i])
+
+    print("\n")
+
+
+#Cuenta la cantidad de vehiculos de cada pais que pasaron por las cabinas
+def cantidadVehiculos(Registros):
+
+    lista_nombres_paises = ["Argentina","Bolivia","Brasil","Paraguay","Uruguay","Chile","otros"]
+    lista_paises = [0,0,0,0,0,0,0]
+    contador_paises = 0
+
+    for i in range(len(Registros)):
+
+        #pais patente(pp), indice patente(ip)
+        pp, ip = definirPatente(Registros[i].patente)
+        lista_paises[ip] += 1
+
+    return lista_nombres_paises, lista_paises
+
+
+#Calcula los importes que se le cobra a cada vehiculo
+def calcularImporte(vehiculo,pais,forma_de_pago):
+    total = 0
+    indice_importe = ""
+
+    #CALCULOS
+    #No se si se toma como "pais" al pais de la patente o de la cabina (me refiero para cobrar los 200, 300, etc)
+
+    return total, indice_importe
+
+
+#Calcula los importes de
+def importeTickets(Registros):
+
+    importe_total_vehiculos = [0,0,0]
+
+    for i in range(len(Registros)):
+        total_vehiculo, indice_vehiculo = \
+            calcularImporte(Registros[i].tipoV, Registros[i].pais, Registros[i].forma_de_pago)
+
+        importe_total_vehiculos[indice_vehiculo] += total_vehiculo
+

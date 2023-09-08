@@ -24,29 +24,30 @@ def menu(registros):
         if opc == 1:
             decision = int(input("Estas seguro de que deseas eliminar el registro anterior y crear uno nuevo si(1) no (0): "))
             if decision == 1:
-                registros = cargar_vector(registros, "peajes-tp3.txt")
+                registros = cargarVector(registros, "peajes-tp3.txt")
                 print("\nRegistros cargados satisfactoriamente.\n")
 
-        if opc == 2:
+        elif opc == 2:
             cargaPorTeclado(registros)
             print("\nRegistro cargado satisfactoriamente.\n")
 
-        if opc == 3:
+        elif opc == 3:
             registros = ordenarRegistros(registros)
-            print("\nRegistros ordenados de forma ascendente.\n")
             mostrarRegistros(registros)
+            print("\nRegistros ordenados de forma ascendente.\n")
             ordenado = True
-        if opc == 4:
-            patente_buscada = input("Ingrese la patente que desea buscar: ")
+
+        elif opc == 4:
+            patente_buscada = input("\nIngrese la patente que desea buscar: ")
             cabina_buscada = input("Ingrese el país de la cabina: ")
 
             resultado4 = buscarRegistro(registros, patente_buscada, cabina_buscada)
             if not(resultado4):
-                print("No se encontró el registro deseado")
+                print("\nNo se encontró el registro deseado")
             else:
-                print(resultado4)
+                print("\n", resultado4)
 
-        if opc == 5:
+        elif opc == 5:
             if not ordenado:
                 registros = ordenarRegistros(registros)
 
@@ -58,15 +59,15 @@ def menu(registros):
                 registros = cambiarValor(registros, indice)
                 print("\nEl registro modificado: ", registros[indice])
 
+        elif opc == 6:
+            lista_nombres_paises, lista_paises = cantidadVehiculos(registros)
+            mostrarPaises(lista_nombres_paises, lista_paises)
 
-            #cambiarValor(registros)
-        if opc == 6:
+        elif opc == 7:
             pass
-        if opc == 7:
+        elif opc == 8:
             pass
-        if opc == 8:
-            pass
-        if opc == 9:
+        elif opc == 9:
             pass
         opc = int(input('\nOpcion: '))
 
@@ -77,5 +78,4 @@ def Main():
 if __name__ == "__main__":
     Main()
 
-#TERMINAR FUNCION paisPatente() PARA QUE AYUDE A MOSTRAR EL PAIS EN EL PUNTO 3
-#PUNTO 4,5,6,7,8,9
+
