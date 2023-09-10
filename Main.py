@@ -73,14 +73,15 @@ def menu(registros):
                 importe_total_vehiculos, lista_vehiculos = importeTickets(registros)
 
             may, porc , indice_may = porcentajeVehiculos(importe_total_vehiculos,registros)
-
-            print("\nEl tipo de vehículo con mayor monto acumulado fue ", "'", lista_vehiculos[indice_may], "'",
-                  "es igual a: ", may, "y representa el", porc, "% del total")
+            if may != 0 and porc != 0 and indice_may != 0:
+                print("\nEl tipo de vehículo con mayor monto acumulado fue ", "'", lista_vehiculos[indice_may], "'",
+                      "es igual a: ", may, "y representa el", porc, "% del total")
 
         elif opc == 9:
             promedio, cantidad = promedioVehiculos(registros)
-            print("\nEl promedio de distancia desde la ultima cabina fue: ", promedio," Km",
-                  " y la cantidad de vehículos que superan el promedio es: ", cantidad)
+            if promedio != 0 and cantidad != 0:
+                print("\nEl promedio de distancia desde la ultima cabina fue: ", promedio," Km",
+                    " y la cantidad de vehículos que superan el promedio es: ", cantidad)
 
         opc = int(input('\nOpcion: '))
 
