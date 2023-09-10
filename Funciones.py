@@ -129,19 +129,28 @@ def cargarVector(Registros, txt):
 
 #Validar que el codigo del ticket contenga solo numeros
 def validateCodigo(codigo, n):
+    c = 0
     if len(codigo) != n:
         return False
     for i in range(len(codigo)):
-        if codigo[i].isalpha():
-            return False
-    return True
+        if codigo[i] in "0123456789":
+            c += 1
+    if c == len(codigo):
+        return True
+    else:
+        return False
 
 
 #Validar que la patente sea correcta
 def validatePatente(patente):
-    if len(patente) != 7:
+    c = 0
+    for i in range(len(patente)):
+        if patente[i].isalpha() or patente[i] in "0123456789":
+            c += 1
+    if len(patente) == c:
+        return True
+    else:
         return False
-    return True
 
 
 #Validar que el pais sea correcto
