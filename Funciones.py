@@ -381,6 +381,7 @@ def importeTickets(Registros):
 def porcentajeVehiculos(importe_total_vehiculos, registros):
     may = 0
     total = 0
+    indice = 0
     for i in range(len(importe_total_vehiculos)):
         total += importe_total_vehiculos[i]
         if importe_total_vehiculos[i] > may:
@@ -389,4 +390,18 @@ def porcentajeVehiculos(importe_total_vehiculos, registros):
     porc = round(may * 100 / total, 2)
     return may, porc, indice
 
+
+#Calcula el promedio de la distancia recorrida desde la ultima cabina
+def promedioVehiculos(Registros):
+    total = 0
+    #Contador para los vehículos que superan la distancia promedio
+    c_vehiculos = 0
+    for i in range(len(Registros)):
+        total += int(Registros[i].km_Recorridos)
+    prom = round(total / len(Registros), 2)
+
+    for i in range(len(Registros)):
+        if int(Registros[i].km_Recorridos) > prom:
+            c_vehiculos += 1
+    return prom, c_vehiculos
 

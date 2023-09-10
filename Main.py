@@ -78,7 +78,10 @@ def menu(registros):
                   "es igual a: ", may, "y representa el", porc, "% del total")
 
         elif opc == 9:
-            pass
+            promedio, cantidad = promedioVehiculos(registros)
+            print("\nEl promedio de distancia desde la ultima cabina fue: ", promedio," Km",
+                  " y la cantidad de vehículos que superan el promedio es: ", cantidad)
+
         opc = int(input('\nOpcion: '))
 
 def Main():
