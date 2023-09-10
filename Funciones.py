@@ -387,7 +387,11 @@ def porcentajeVehiculos(importe_total_vehiculos, registros):
         if importe_total_vehiculos[i] > may:
             may = importe_total_vehiculos[i]
             indice = i
-    porc = round(may * 100 / total, 2)
+    if total != 0:
+        porc = round(may * 100 / total, 2)
+    else:
+        print("cargue el vector primero...")
+        return 0, 0, 0
     return may, porc, indice
 
 
@@ -396,6 +400,9 @@ def promedioVehiculos(Registros):
     total = 0
     #Contador para los vehículos que superan la distancia promedio
     c_vehiculos = 0
+    if not Registros:
+        print("Primero cargue el vector por favor...")
+        return 0, 0
     for i in range(len(Registros)):
         total += int(Registros[i].km_Recorridos)
     prom = round(total / len(Registros), 2)
